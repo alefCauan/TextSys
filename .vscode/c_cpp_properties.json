@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",  // ou "Win32" para Windows, "Mac" para macOS
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/include",  // Caminho padrão para cabeçalhos no Linux
+                "/usr/local/include",
+                "/usr/include/c++/11"  // Ajuste para a versão do seu compilador (ex.: 11 para g++-11)
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/g++",  // Caminho para o g++ (ajuste conforme necessário)
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
