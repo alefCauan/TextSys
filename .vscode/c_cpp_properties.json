@@ -1,15 +1,16 @@
 {
     "configurations": [
         {
-            "name": "Linux",  // ou "Win32" para Windows, "Mac" para macOS
+            "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "/usr/include",  // Caminho padrão para cabeçalhos no Linux
+                "/usr/include",
                 "/usr/local/include",
-                "/usr/include/c++/11"  // Ajuste para a versão do seu compilador (ex.: 11 para g++-11)
+                "/usr/include/c++/11",
+                "/usr/include/x86_64-linux-gnu/qt5"
             ],
             "defines": [],
-            "compilerPath": "/usr/bin/g++",  // Caminho para o g++ (ajuste conforme necessário)
+            "compilerPath": "/usr/bin/g++",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64"
