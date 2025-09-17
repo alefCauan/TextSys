@@ -1,0 +1,17 @@
+services:
+  servidor-mestre:
+    build:
+      context: .
+      dockerfile: src/server/master/Dockerfile
+    container_name: servidor-mestre
+    ports:
+      - "8080:8080"
+      
+    volumes:
+      - ./src/server/master:/app/server/master
+      - ./src/bibs:/app/bibs
+    environment:
+      - HOST_IP=${HOST_IP}  # aqui recebe o IP da máquina
+    command: >
+      bash -c "g++ -std=c++17 -I ./bibs ./server/master/main.cpp -o /app/servidor_mestre &&
+        /app/servidor_mestre"
