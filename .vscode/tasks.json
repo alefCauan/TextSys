@@ -1,35 +1,48 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "Docker Build Servidor Mestre",
-            "type": "shell",
-            "command": "docker build -f src/server/master/Dockerfile -t servidor-mestre .",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": false,
-                "panel": "shared"
-            }
-        },
-        {
-            "label": "Docker Run Servidor Mestre",
-            "type": "shell",
-            "command": "docker run -p 8080:8080 servidor-mestre",
-            "group": {
-                "kind": "test",
-                "isDefault": true
-            },
-            "presentation": {
-                "echo": true,
-                "reveal": "always",
-                "focus": true,
-                "panel": "shared"
-            }
-        }
-    ]
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Docker Compose Up Build",
+			"type": "shell",
+			"command": "export HOST_IP=$(hostname -I | awk '{print $1}') && docker compose up --build",
+			"group": {
+				"kind": "test"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared"
+			}
+		},
+		{
+			"label": "Docker Compose Up",
+			"type": "shell",
+			"command": "export HOST_IP=$(hostname -I | awk '{print $1}') && docker compose up",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared"
+			}
+		},
+		{
+			"label": "Docker Compose Down",
+			"type": "shell",
+			"command": "export HOST_IP=$(hostname -I | awk '{print $1}') && docker compose down",
+			"group": {
+				"kind": "test"
+			},
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": true,
+				"panel": "shared"
+			}
+		}
+	]
 }
