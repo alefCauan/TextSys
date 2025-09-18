@@ -76,7 +76,8 @@ int main()
     res.set_content(combinado.dump(), "application/json"); });
 
     const char *hostIP = std::getenv("HOST_IP");
-        if (!hostIP) hostIP = "localhost";
+    if (!hostIP)
+        hostIP = "localhost";
 
     std::cerr << "Servidor rodando em http://" << hostIP << ":" << PORTA_SERVIDOR << std::endl;
     svr.listen("0.0.0.0", PORTA_SERVIDOR);

@@ -1,8 +1,10 @@
 #include "server.h"
 #include <iostream>
 
-int main(int argc, char* argv[]) {
-    if (argc != 2) {
+int main(int argc, char *argv[])
+{
+    if (argc != 2)
+    {
         std::cerr << "Uso: " << argv[0] << " [letras|numeros]\n";
         return 1;
     }
