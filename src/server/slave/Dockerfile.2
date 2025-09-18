@@ -1,0 +1,6 @@
+FROM ubuntu:22.04
+WORKDIR /app
+RUN apt-get update && apt-get install -y libstdc++6
+COPY slave_numeros /app/
+EXPOSE 8082
+CMD ["./slave_numeros", "numeros"]

@@ -1,0 +1,6 @@
+FROM ubuntu:22.04
+WORKDIR /app
+RUN apt-get update && apt-get install -y libstdc++6
+COPY slave_letras /app/
+EXPOSE 8081
+CMD ["./slave_letras", "letras"]
