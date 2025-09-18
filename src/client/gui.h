@@ -8,6 +8,7 @@ public:
     ClientGUI();
     void run(int argc, char **argv);
     void on_send_clicked();
+    void clear_text();
 
 private:
     GtkWidget *window;
