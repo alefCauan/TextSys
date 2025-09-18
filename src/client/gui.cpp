@@ -50,7 +50,6 @@ void ClientGUI::run(int argc, char **argv)
     GtkWidget *btn_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
     gtk_box_pack_start(GTK_BOX(left_box), btn_vbox, FALSE, FALSE, 0);
 
-
     // Host + porta
     entry_host = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(entry_host), "Host (ex: 127.0.0.1)");
@@ -74,13 +73,38 @@ void ClientGUI::run(int argc, char **argv)
     gtk_box_pack_start(GTK_BOX(btn_vbox), btn_clear, FALSE, FALSE, 0);
     g_signal_connect(btn_clear, "clicked", G_CALLBACK(on_clear_button), this);
 
-    // Espaço expansivo abaixo dos botões
+    // ================== LOGO ABAIXO DOS BOTÕES ==================
+    // Espaço pequeno entre botões e logo
+    GtkWidget *spacer = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_widget_set_size_request(spacer, -1, 20); // 20px de espaço
+    gtk_box_pack_start(GTK_BOX(left_box), spacer, FALSE, FALSE, 0);
+
+    // Widget da imagem (logo)
+    GtkWidget *logo_image = gtk_image_new_from_file("Alien3.png"); // Substitua pelo caminho do seu logo
+    
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale("Alien3.png", 100, 100, TRUE, NULL);
+    if (pixbuf) {
+        logo_image = gtk_image_new_from_pixbuf(pixbuf);
+        g_object_unref(pixbuf);
+    } else {
+        logo_image = gtk_label_new("Logo não encontrado");
+    }
+
+    // Centralizar o logo
+    GtkWidget *logo_alignment = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_box_pack_start(GTK_BOX(logo_alignment), gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0), TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(logo_alignment), logo_image, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(logo_alignment), gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0), TRUE, TRUE, 0);
+    
+    gtk_box_pack_start(GTK_BOX(left_box), logo_alignment, FALSE, FALSE, 0);
+
+    // Espaço expansivo abaixo do logo
     GtkWidget *vspace_bottom = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_box_pack_start(GTK_BOX(left_box), vspace_bottom, TRUE, TRUE, 0);
 
     // ================== COLUNA DIREITA ==================
-    GtkWidget *right_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
-    gtk_box_pack_start(GTK_BOX(hbox), right_box, TRUE, TRUE, 0);
+    GtkWidget *right_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    gtk_box_pack_start(GTK_BOX(hbox), right_box, TRUE, TRUE, 10);
 
     GtkWidget *label_resp = gtk_label_new("Resposta do servidor (JSON):");
     gtk_box_pack_start(GTK_BOX(right_box), label_resp, FALSE, FALSE, 5);
