@@ -39,35 +39,48 @@ void ClientGUI::run(int argc, char **argv)
     gtk_container_add(GTK_CONTAINER(window), hbox);
 
     // ================== COLUNA ESQUERDA ==================
-    GtkWidget *left_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
+    GtkWidget *left_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
     gtk_box_pack_start(GTK_BOX(hbox), left_box, FALSE, FALSE, 10);
+
+    // Espaço expansivo acima dos botões
+    GtkWidget *vspace_top = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_box_pack_start(GTK_BOX(left_box), vspace_top, TRUE, TRUE, 0);
+
+    // Container vertical para os botões
+    GtkWidget *btn_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
+    gtk_box_pack_start(GTK_BOX(left_box), btn_vbox, FALSE, FALSE, 0);
+
 
     // Host + porta
     entry_host = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(entry_host), "Host (ex: 127.0.0.1)");
-    gtk_box_pack_start(GTK_BOX(left_box), entry_host, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(btn_vbox), entry_host, FALSE, FALSE, 0);
 
     entry_port = gtk_entry_new();
     gtk_entry_set_placeholder_text(GTK_ENTRY(entry_port), "Porta (ex: 8080)");
-    gtk_box_pack_start(GTK_BOX(left_box), entry_port, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(btn_vbox), entry_port, FALSE, FALSE, 0);
 
     // File chooser
     file_chooser = gtk_file_chooser_button_new("Selecione um arquivo TXT", GTK_FILE_CHOOSER_ACTION_OPEN);
-    gtk_box_pack_start(GTK_BOX(left_box), file_chooser, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(btn_vbox), file_chooser, FALSE, FALSE, 0);
 
     // Botão enviar
     GtkWidget *btn_send = gtk_button_new_with_label("Enviar");
-    gtk_box_pack_start(GTK_BOX(left_box), btn_send, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(btn_vbox), btn_send, FALSE, FALSE, 0);
     g_signal_connect(btn_send, "clicked", G_CALLBACK(on_send_button), this);
 
     // Botão limpar
     GtkWidget *btn_clear = gtk_button_new_with_label("Limpar");
-    gtk_box_pack_start(GTK_BOX(left_box), btn_clear, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(btn_vbox), btn_clear, FALSE, FALSE, 0);
     g_signal_connect(btn_clear, "clicked", G_CALLBACK(on_clear_button), this);
 
+    // Espaço expansivo abaixo dos botões
+    GtkWidget *vspace_bottom = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_box_pack_start(GTK_BOX(left_box), vspace_bottom, TRUE, TRUE, 0);
+
     // ================== COLUNA DIREITA ==================
-    GtkWidget *right_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
-    gtk_box_pack_start(GTK_BOX(hbox), right_box, TRUE, TRUE, 10);
+    GtkWidget *right_box = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_box_pack_start(GTK_BOX(hbox), right_box, TRUE, TRUE, 0);
 
     GtkWidget *label_resp = gtk_label_new("Resposta do servidor (JSON):");
     gtk_box_pack_start(GTK_BOX(right_box), label_resp, FALSE, FALSE, 5);
