@@ -23,8 +23,12 @@ services:
     container_name: escravo-letras
     ports:
       - "8081:8081"
-    command: ["letras", "8081"]
-
+    volumes:
+      - ./src/server/slave:/app/server/slave
+      - ./src/bibs:/app/bibs
+    command: >
+      bash -c "g++ -std=c++17 -I ./bibs ./server/slave/main.cpp -o /app/slave &&
+        /app/slave letras 8081"
   escravo-numeros:
     build:
       context: .
@@ -32,5 +36,9 @@ services:
     container_name: escravo-numeros
     ports:
       - "8082:8082"
-    command: ["numeros", "8082"]
-
+    volumes:
+      - ./src/server/slave:/app/server/slave
+      - ./src/bibs:/app/bibs
+    command: >
+      bash -c "g++ -std=c++17 -I ./bibs ./server/slave/main.cpp -o /app/slave &&
+        /app/slave numeros 8082"

@@ -9,41 +9,38 @@ using json = nlohmann::json;
 
 const int PORTA_SERVIDOR = 8080;
 
-json consultarEscravo(const std::string &host, int port, const std::string &body)
-{
-    std::cerr << "Chamando escravo em " << host << ":" << port << std::endl;
+std::string getModoFromHost(const std::string &host) {
+    size_t pos = host.find('-');
+    if(pos != std::string::npos) {
+        return host.substr(pos + 1); // pega tudo depois do '-'
+    }
+    return host; // se não tiver '-', retorna o próprio host
+}
+
+json consultarEscravo(const std::string &host, int port, const std::string &body) {
+    std::string modo = getModoFromHost(host);
+    std::cerr << "\nChamando escravo em " << host << ":" << port << std::endl;
 
     httplib::Client cli(host, port);
 
     // Verifica se está vivo
-    if (auto res = cli.Get("/health"))
-    {
-        if (res->status != 200)
-        {
+    if(auto res = cli.Get("/health")) {
+        if(res->status != 200) {
             return {{"erro", "Escravo indisponível"}};
         }
-    }
-    else
-    {
+    } else {
         return {{"erro", "Falha ao conectar"}};
     }
 
     // Envia dados
-    if (auto res = cli.Post("/processar", body, "application/json"))
-    {
-        if (res->status == 200)
-        {
-            try
-            {
+    if(auto res = cli.Post("/" + modo, body, "application/json")) {
+        if(res->status == 200) {
+            try {
                 return json::parse(res->body);
-            }
-            catch (...)
-            {
+            } catch(...) {
                 return {{"erro", "Resposta inválida do escravo"}};
             }
-        }
-        else
-        {
+        } else {
             return {{"erro", "Falha no processamento"}};
         }
     }
@@ -51,32 +48,36 @@ json consultarEscravo(const std::string &host, int port, const std::string &body
     return {{"erro", "Sem resposta do escravo"}};
 }
 
-int main()
-{
+int main() {
     httplib::Server svr;
 
-    svr.Post("/info", [](const httplib::Request &req, httplib::Response &res)
-             {
-    std::cerr << "Recebido do cliente: \n" << req.body << std::endl;
+    svr.Post("/info", [](const httplib::Request & req, httplib::Response & res) {
+        std::cerr << "Recebido do cliente: \n" << req.body << std::endl;
 
-    // Executa em paralelo
-    auto f1 = std::async(std::launch::async, consultarEscravo, "escravo1", 8081, req.body);
-    auto f2 = std::async(std::launch::async, consultarEscravo, "escravo2", 8082, req.body);
+        std::string escravo_letras = "escravo-letras";
+        std::string escravo_numeros = "escravo-numeros";
 
-    // Espera os dois terminarem
-    json resposta1 = f1.get();
-    json resposta2 = f2.get();
+        // Executa em paralelo
+        auto f1 = std::async(std::launch::async, consultarEscravo, escravo_letras, 8081, req.body);
+        auto f2 = std::async(std::launch::async, consultarEscravo, escravo_numeros, 8082, req.body);
 
-    // Combina resultados
-    json combinado;
-    combinado["escravo1"] = resposta1;
-    combinado["escravo2"] = resposta2;
+        // Espera os dois terminarem
+        json resposta1 = f1.get();
+        json resposta2 = f2.get();
 
-    // Retorna consolidado
-    res.set_content(combinado.dump(), "application/json"); });
+        // Combina resultados
+        json combinado;
+        combinado[escravo_letras] = resposta1;
+        combinado[escravo_numeros] = resposta2;
+
+        std::cerr << "Combinado dos escravos: \n" << combinado.dump(4) << std::endl;
+        // Retorna consolidado
+        res.set_content(combinado.dump(), "application/json");
+    });
 
     const char *hostIP = std::getenv("HOST_IP");
-        if (!hostIP) hostIP = "localhost";
+    if(!hostIP)
+        hostIP = "localhost";
 
     std::cerr << "Servidor rodando em http://" << hostIP << ":" << PORTA_SERVIDOR << std::endl;
     svr.listen("0.0.0.0", PORTA_SERVIDOR);
