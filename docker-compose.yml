@@ -15,3 +15,22 @@ services:
     command: >
       bash -c "g++ -std=c++17 -I ./bibs ./server/master/main.cpp -o /app/servidor_mestre &&
         /app/servidor_mestre"
+
+  escravo-letras:
+    build:
+      context: .
+      dockerfile: src/server/slave/Dockerfile
+    container_name: escravo-letras
+    ports:
+      - "8081:8081"
+    command: ["letras", "8081"]
+
+  escravo-numeros:
+    build:
+      context: .
+      dockerfile: src/server/slave/Dockerfile
+    container_name: escravo-numeros
+    ports:
+      - "8082:8082"
+    command: ["numeros", "8082"]
+
