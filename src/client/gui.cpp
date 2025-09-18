@@ -44,8 +44,8 @@ void apply_custom_css()
             border-radius: 8px;
             color: @dark_teal;
             font-weight: bold;
-            padding: 8px 16px;
-            margin: 2px;
+            // padding: 8px 16px;
+            // margin: 2px;
         }
 
         button:hover {
@@ -64,8 +64,8 @@ void apply_custom_css()
             border: 2px solid @medium_green;
             border-radius: 6px;
             color: @light_gray;
-            padding: 8px;
-            margin: 2px;
+            // padding: 8px;
+            // margin: 2px;
         }
 
         entry:focus {
