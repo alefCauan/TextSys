@@ -21,11 +21,123 @@ static void on_send_button(GtkWidget *widget, gpointer data)
     reinterpret_cast<ClientGUI *>(data)->on_send_clicked();
 }
 
+// Função para aplicar CSS customizado
+void apply_custom_css()
+{
+    const char *css_data = R"(
+        /* Definindo as cores da paleta */
+        @define-color light_gray #F1F7F7;
+        @define-color dark_teal #021A1A;
+        @define-color bright_green #00DF82;
+        @define-color medium_green #2CC295;
+        @define-color black #000000;
+
+        /* Estilo da janela principal */
+        window {
+            background-color: @black;
+        }
+
+        /* Estilo dos botões */
+        button {
+            background: linear-gradient(to bottom, @medium_green, @bright_green);
+            border: 2px solid @dark_teal;
+            border-radius: 8px;
+            color: @dark_teal;
+            font-weight: bold;
+            padding: 8px 16px;
+            margin: 2px;
+        }
+
+        button:hover {
+            background: linear-gradient(to bottom, @bright_green, @medium_green);
+            box-shadow: 0 2px 4px rgba(2, 26, 26, 0.3);
+        }
+
+        button:active {
+            background-color: @dark_teal;
+            color: @black;
+        }
+
+        /* Estilo dos campos de entrada */
+        entry {
+            background-color: @black;
+            border: 2px solid @medium_green;
+            border-radius: 6px;
+            color: @light_gray;
+            padding: 8px;
+            margin: 2px;
+        }
+
+        entry:focus {
+            border-color: @light_gray;
+            box-shadow: 0 0 6px rgba(0, 223, 130, 0.3);
+        }
+
+        /* Estilo do file chooser */
+        filechooserbutton button {
+            background-color: @black;
+            border: 2px solid @medium_green;
+            color: @dark_teal;
+        }
+
+        /* Estilo das labels */
+        label {
+            color: @dark_teal;
+            font-weight: bold;
+        }
+
+        /* Estilo da área de texto */
+        textview {
+            background-color: @black;
+            color: @dark_teal;
+            border: 2px solid @light_gray;
+        }
+
+        textview text {
+            background-color: @black;
+            color: @light_gray;
+        }
+
+        /* Estilo da scrollbar */
+        scrollbar {
+            background-color: @black;
+        }
+
+        scrollbar slider {
+            background-color: @medium_green;
+            border-radius: 10px;
+        }
+
+        scrollbar slider:hover {
+            background-color: @bright_green;
+        }
+
+        /* Estilo do scrolled window */
+        scrolledwindow {
+            border: 2px solid @medium_green;
+            border-radius: 6px;
+        }
+    )";
+
+    GtkCssProvider *provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(provider, css_data, -1, NULL);
+    
+    gtk_style_context_add_provider_for_screen(
+        gdk_screen_get_default(),
+        GTK_STYLE_PROVIDER(provider),
+        GTK_STYLE_PROVIDER_PRIORITY_APPLICATION
+    );
+    
+    g_object_unref(provider);
+}
+
 ClientGUI::ClientGUI() {}
 
 void ClientGUI::run(int argc, char **argv)
 {
     gtk_init(&argc, &argv);
+
+    apply_custom_css();
 
     // Janela principal
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
