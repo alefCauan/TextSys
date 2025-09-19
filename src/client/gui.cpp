@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include "../bibs/json.hpp"
 
 // Add this method to the `ClientGUI` class to clear the text
 void ClientGUI::clear_text()
@@ -47,7 +48,7 @@ void apply_custom_css()
             // padding: 8px 16px;
             // margin: 2px;
         }
-
+10.180.47.192
         button:hover {
             background: linear-gradient(to bottom, @bright_green, @medium_green);
             box-shadow: 0 2px 4px rgba(2, 26, 26, 0.3);
@@ -259,16 +260,43 @@ void ClientGUI::on_send_clicked()
     ss << ifs.rdbuf();
     std::string content = ss.str();
 
+    using json = nlohmann::json;
     // Faz requisição
+    // printf("Enviando para %s:%d o conteúdo do arquivo %s\n", host.c_str(), port, filepath.c_str());
     try
     {
         std::string response = post_text_and_get_json(host, port, "/info", content);
-        append_text("Resposta do servidor:\n" + response + "\n");
+        // printf("Resposta bruta: %s\n", response.c_str());
+        // Faz o parse do JSON
+        json parsed = json::parse(response);
+
+        // Constrói saída formatada
+        std::ostringstream formatted;
+        formatted << "Resposta do servidor:\n";
+        for (auto& [key, value] : parsed.items())
+        {
+            if (value.contains("resultado"))
+            {
+                formatted << " - " << key << ": " << value["resultado"] << "\n";
+            }
+        }
+
+        append_text(formatted.str());
     }
-    catch (const std::exception &ex)
+    catch (const std::exception& e)
     {
-        append_text(std::string("Erro: ") + ex.what() + "\n");
+        append_text(std::string("Erro ao processar resposta: ") + e.what() + "\n");
     }
+    // try
+    // {
+
+    //     std::string response = post_text_and_get_json(host, port, "/info", content);
+    //     append_text("Resposta do servidor:\n" + response + "\n");
+    // }
+    // catch (const std::exception &ex)
+    // {
+    //     append_text(std::string("Erro: ") + ex.what() + "\n");
+    // }
 
     g_free(filepath_c);
 }
