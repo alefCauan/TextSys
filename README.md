@@ -56,6 +56,7 @@ Criar um sistema cliente-servidor distribuído, onde:
    ./run.sh
    ```
 ## 📂 Estrutura do Projeto
+```bash
 .
 ├── LICENSE
 ├── README.md
@@ -75,7 +76,7 @@ Criar um sistema cliente-servidor distribuído, onde:
     └── server/                 # Código do servidor
         ├── master/             # Servidor Mestre
         └── slave/              # Servidores Escravos (letras/números)
-
+   ```
 ## 🖼️ Interface
 
 ###  Tela do Cliente
