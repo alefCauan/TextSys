@@ -50,7 +50,7 @@ Criar um sistema cliente-servidor distribuído, onde:
    ```bash
    export HOST_IP=$(hostname -I | awk '{print $1}') && docker compose up
    ```
-3. ** Para execultar o cliente **
+3. **Para execultar o cliente**
    ```bash
    cd src 
    ./run.sh
@@ -67,11 +67,11 @@ Criar um sistema cliente-servidor distribuído, onde:
     │   ├── httplib.h
     │   └── json.hpp
     ├── client/                 # Código do cliente
-    │   ├── Dockerfile
+    │   ├── gui.cpp
+    │   ├── gui.h
     │   ├── http_client.cpp
     │   ├── http_client.h
     │   ├── main.cpp
-    │   └── requirements.txt
     ├── input.txt               # Arquivo de entrada (exemplo)
     └── server/                 # Código do servidor
         ├── master/             # Servidor Mestre
@@ -80,7 +80,7 @@ Criar um sistema cliente-servidor distribuído, onde:
 ## 🖼️ Interface
 
 ###  Tela do Cliente
-Tela onde o usuário sobe o txt e recebe a contagem dos números e letras**.  
+Tela onde o usuário sobe o txt e recebe a contagem dos números e letras.  
 
 ![Tela Cliente](src/Cliente.jpg)
 
