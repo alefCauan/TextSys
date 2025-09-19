@@ -42,25 +42,18 @@ Criar um sistema cliente-servidor distribuído, onde:
 
 ## Como executar os servidores escravos com Docker
 
-1. **Construa a imagem Docker (apenas uma vez):**
+1. **Comando para buildar e executar**
+     ```bash
+     export HOST_IP=$(hostname -I | awk '{print $1}') && docker compose up --build
+      ```
+2. **Comando para executar (caso já tenha buildado antes)**
    ```bash
-   docker build -t slave_server .
+   export HOST_IP=$(hostname -I | awk '{print $1}') && docker compose up
    ```
-
-2. **Execute o container para contar letras:**
+3. ** Para execultar o cliente **
    ```bash
-   docker run -d --name slave_letras -p 8081:8081 slave_server letras
-   ```
-
-3. **Execute o container para contar números:**
-   ```bash
-   docker run -d --name slave_numeros -p 8082:8082 slave_server numeros
-   ```
-
-4. **Teste os endpoints:**
-   ```bash
-   curl -X POST http://localhost:8081/letras -d "abc123DEF"
-   curl -X POST http://localhost:8082/numeros -d "abc123DEF"
+   cd src 
+   ./run.sh
    ```
 ## 📂 Estrutura do Projeto
 .
@@ -82,4 +75,17 @@ Criar um sistema cliente-servidor distribuído, onde:
     └── server/                 # Código do servidor
         ├── master/             # Servidor Mestre
         └── slave/              # Servidores Escravos (letras/números)
+
+## 🖼️ Interface
+
+###  Tela do Cliente
+Tela onde o usuário sobe o txt e recebe a contagem dos números e letras**.  
+
+![Tela Cliente](src/Cliente.jpg)
+
+Tela cliente depois da devolução das informações do servidor 
+
+![Tela Cliente2](src/cliente2.jpg)
+
+
 
