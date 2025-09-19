@@ -15,7 +15,7 @@ Criar um sistema cliente-servidor distribuído, onde:
 
 ### 🔹 Cliente
 - Envia um arquivo `.txt` com letras e números.  
-- Pode ser implementado como **linha de comando (CLI)** ou **GUI em Qt/GTK+**.  
+- Implementado como **GUI em GTK+**.  
 - Apenas envia requisições **HTTP REST** ao Mestre.  
 - Exibe os resultados no terminal ou interface gráfica.  
 
