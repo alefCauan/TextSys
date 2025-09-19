@@ -40,8 +40,46 @@ Criar um sistema cliente-servidor distribuído, onde:
 - **Contêineres:** Docker + docker-compose para orquestração (Mestre + Escravos)  
 - **Execução do Cliente:** Pode rodar fora dos containers (ex.: em um notebook), comunicando-se via rede com o Mestre  
 
----
+## Como executar os servidores escravos com Docker
 
+1. **Construa a imagem Docker (apenas uma vez):**
+   ```bash
+   docker build -t slave_server .
+   ```
+
+2. **Execute o container para contar letras:**
+   ```bash
+   docker run -d --name slave_letras -p 8081:8081 slave_server letras
+   ```
+
+3. **Execute o container para contar números:**
+   ```bash
+   docker run -d --name slave_numeros -p 8082:8082 slave_server numeros
+   ```
+
+4. **Teste os endpoints:**
+   ```bash
+   curl -X POST http://localhost:8081/letras -d "abc123DEF"
+   curl -X POST http://localhost:8082/numeros -d "abc123DEF"
+   ```
 ## 📂 Estrutura do Projeto
-
+.
+├── LICENSE
+├── README.md
+├── build/                     # Arquivos de build/compilação
+├── docker-compose.yml          # Orquestração dos containers
+└── src/
+    ├── bibs/                   # Bibliotecas externas (httplib, json.hpp)
+    │   ├── httplib.h
+    │   └── json.hpp
+    ├── client/                 # Código do cliente
+    │   ├── Dockerfile
+    │   ├── http_client.cpp
+    │   ├── http_client.h
+    │   ├── main.cpp
+    │   └── requirements.txt
+    ├── input.txt               # Arquivo de entrada (exemplo)
+    └── server/                 # Código do servidor
+        ├── master/             # Servidor Mestre
+        └── slave/              # Servidores Escravos (letras/números)
 
