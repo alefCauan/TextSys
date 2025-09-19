@@ -1,4 +1,4 @@
-Olá, este é um arquivo de teste!
-Contém letras (a-z, A-Z) e números 1234567890.
+Ola, este e um arquivo de teste!
+Contem letras (a-z, A-Z) e numeros 1234567890.
 Mais uma linha com valores: ABC123xyz.
 Fim do exemplo.
