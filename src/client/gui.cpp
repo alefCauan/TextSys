@@ -193,9 +193,9 @@ void ClientGUI::run(int argc, char **argv)
     gtk_box_pack_start(GTK_BOX(left_box), spacer, FALSE, FALSE, 0);
 
     // Widget da imagem (logo)
-    GtkWidget *logo_image = gtk_image_new_from_file("Alien3.png"); // Substitua pelo caminho do seu logo
+    GtkWidget *logo_image = gtk_image_new_from_file("client/figs/Alien3.png"); // Substitua pelo caminho do seu logo
     
-    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale("Alien3.png", 100, 100, TRUE, NULL);
+    GdkPixbuf *pixbuf = gdk_pixbuf_new_from_file_at_scale("client/figs/Alien3.png", 100, 100, TRUE, NULL);
     if (pixbuf) {
         logo_image = gtk_image_new_from_pixbuf(pixbuf);
         g_object_unref(pixbuf);
