@@ -35,10 +35,10 @@ Criar um sistema cliente-servidor distribuído, onde:
 ## 🛠️ Requisitos Técnicos
 
 - **Linguagem:** C++17 ou superior  
-- **Concorrência:** `std::thread`, `std::async` ou equivalente  
-- **Comunicação REST:** `cpp-httplib` ou `Boost.Beast`  
+- **Concorrência:** `std::async`  
+- **Comunicação REST:** `cpp-httplib`
 - **Contêineres:** Docker + docker-compose para orquestração (Mestre + Escravos)  
-- **Execução do Cliente:** Pode rodar fora dos containers (ex.: em um notebook), comunicando-se via rede com o Mestre  
+- **Execução do Cliente:** Fora dos containers comunicando-se via rede com o Mestre  
 
 ## Como executar os servidores escravos com Docker
 
